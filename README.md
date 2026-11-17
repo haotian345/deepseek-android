@@ -12,7 +12,7 @@
 - [SHA-256 校验文件](https://github.com/haotian345/deepseek-android/releases/download/android-v0.3.0-test.1/SHA256SUMS-v0.3.0.txt)
 - [版本说明与全部下载](https://github.com/haotian345/deepseek-android/releases)
 
-当前版本为调试签名测试版，最低 Android 7.0（API 24），已在 MuMu / Android 15 上验证。真机兼容性与真实 API 功能仍需进一步验收。
+当前版本为调试签名测试版，最低 Android 7.0（API 24）。真机兼容性与真实 API 功能仍需进一步验收。
 
 ## 整合内容
 
@@ -118,15 +118,15 @@ docker compose logs --tail=20
 
 DeepSeek API Key 仍在 App 中加密保存，配套服务不代理模型调用。服务器模式需要连接存储服务，不提供自动离线同步或多设备自动合并。
 
-### MuMu 连接电脑上的服务
+### 真机连接服务
 
-电脑上启动服务并确保 ADB 已连接模拟器，然后执行：
+在局域网内使用：
 
-```sh
-adb reverse tcp:8787 tcp:8787
-```
+1. 手机与运行服务端的电脑或服务器连接同一局域网，并确保网络允许两者互访。
+2. Node 启动方式设置 `HOST=0.0.0.0`；Docker 方式设置 `BIND_ADDRESS=0.0.0.0`，并允许手机所在网络访问服务器 TCP `8787` 端口。
+3. 在手机 App 中填写服务器实际地址，例如 `http://192.168.1.10:8787`，API 路径填写 `/api/storage/v1`，访问令牌填写服务端的 `STORAGE_TOKEN`；允许 HTTP 后，点击「测试连接」，成功后「应用配置」。将示例 IP 替换成自己的服务器 IP。
 
-此时模拟器 App 的服务器地址填写 `http://127.0.0.1:8787`，API 路径与令牌按上表填写，并允许 HTTP。如果连接了多个设备，请使用 `adb -s <设备序列号> reverse tcp:8787 tcp:8787` 指定目标。
+需要使用移动网络或在外网访问时，将服务端部署在手机可访问的服务器上，配置 HTTPS 域名，例如 `https://chat.example.com`。App 填写该域名、对应 API 路径和存储访问令牌，再测试连接并应用配置。
 
 ## 来源与许可
 
