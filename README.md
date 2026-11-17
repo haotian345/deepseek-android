@@ -6,8 +6,8 @@
 
 ## 下载
 
-- [Android 测试版 APK](https://github.com/haotian345/deepseek-android/releases/download/android-v0.1.1-test.1/deepseek-demo-debug.apk)
-- [SHA-256 校验文件](https://github.com/haotian345/deepseek-android/releases/download/android-v0.1.1-test.1/SHA256SUMS.txt)
+- [Android 0.2.0 测试版 APK](https://github.com/haotian345/deepseek-android/releases/download/android-v0.2.0-test.1/deepseek-android-v0.2.0-debug.apk)
+- [SHA-256 校验文件](https://github.com/haotian345/deepseek-android/releases/download/android-v0.2.0-test.1/SHA256SUMS-v0.2.0.txt)
 - [版本说明与全部下载](https://github.com/haotian345/deepseek-android/releases)
 
 当前版本为调试签名测试版，最低 Android 7.0（API 24），已在 MuMu / Android 15 上验证。真机兼容性与真实 API 功能仍需进一步验收。
@@ -20,8 +20,12 @@
 - 导入期间可起草文字，完成后保留草稿并恢复发送。
 - 接入 Android 返回、主题、剪贴板及文件分享。
 - DeepSeek 标识使用 [LobeHub Icons](https://github.com/lobehub/lobe-icons) 的 SVG 资源。
+- 长对话自动摘要压缩（默认约 64K 估算预算），保留原始聊天；可显示进度、中途停止并在重启后复用摘要。
+- 可选的跨对话记忆，支持自动提取、手动添加、编辑、删除和清空；默认关闭，入口为「设置 → 记忆」。
 
 聊天生成和相关附件处理依赖 DeepSeek 云端 API，需要使用自己的 API Key。导入历史在本机完成，不会自动同步到 DeepSeek 账号。
+
+生成摘要和提取记忆会额外调用 DeepSeek API，相关旧聊天或选中的记忆会随请求发送。记忆保存在本机独立数据库，现有历史 ZIP 不包含它们；删除聊天不会自动清除独立长期记忆。摘要可能损失细节，本机 token 估算不等于服务端精确用量。
 
 ## 安装与更新
 
