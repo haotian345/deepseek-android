@@ -6,8 +6,8 @@
 
 ## 下载
 
-- [Android 0.2.0 测试版 APK](https://github.com/haotian345/deepseek-android/releases/download/android-v0.2.0-test.1/deepseek-android-v0.2.0-debug.apk)
-- [SHA-256 校验文件](https://github.com/haotian345/deepseek-android/releases/download/android-v0.2.0-test.1/SHA256SUMS-v0.2.0.txt)
+- [Android 0.2.1 测试版 APK](https://github.com/haotian345/deepseek-android/releases/download/android-v0.2.1-test.1/deepseek-android-v0.2.1-debug.apk)
+- [SHA-256 校验文件](https://github.com/haotian345/deepseek-android/releases/download/android-v0.2.1-test.1/SHA256SUMS-v0.2.1.txt)
 - [版本说明与全部下载](https://github.com/haotian345/deepseek-android/releases)
 
 当前版本为调试签名测试版，最低 Android 7.0（API 24），已在 MuMu / Android 15 上验证。真机兼容性与真实 API 功能仍需进一步验收。
@@ -26,6 +26,12 @@
 聊天生成和相关附件处理依赖 DeepSeek 云端 API，需要使用自己的 API Key。导入历史在本机完成，不会自动同步到 DeepSeek 账号。
 
 生成摘要和提取记忆会额外调用 DeepSeek API，相关旧聊天或选中的记忆会随请求发送。记忆保存在本机独立数据库，现有历史 ZIP 不包含它们；删除聊天不会自动清除独立长期记忆。摘要可能损失细节，本机 token 估算不等于服务端精确用量。
+
+### 0.2.1 界面与模型选择
+
+- 搜索按钮旁默认只显示空心圆环；悬停或点击时在 tip 中显示剩余 K 和百分比，中心没有图案。
+- 输入框顶部可选择 deepseek-flash 或 deepseek-v4-pro，并在本机记住选择。新消息和重新生成使用当前选择，续写保留原回答模型。
+- 历史会话没有最近请求估算时先显示占位符；发送后更新。
 
 ## 安装与更新
 
