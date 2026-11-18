@@ -6,10 +6,10 @@
 
 ## 下载
 
-- [Android 0.3.0 测试版 APK](https://github.com/haotian345/deepseek-android/releases/download/android-v0.3.0-test.1/deepseek-android-v0.3.0-debug.apk)
+- [Android 0.4.0 测试版 APK](https://github.com/haotian345/deepseek-android/releases/download/android-v0.4.0-test.1/deepseek-android-v0.4.0-debug.apk)
 - [配套自建服务端 v0.3.0（含部署文档）](https://github.com/haotian345/deepseek-android/releases/download/android-v0.3.0-test.1/deepseek-storage-v0.3.0.zip)
 
-- [SHA-256 校验文件](https://github.com/haotian345/deepseek-android/releases/download/android-v0.3.0-test.1/SHA256SUMS-v0.3.0.txt)
+- [SHA-256 校验文件](https://github.com/haotian345/deepseek-android/releases/download/android-v0.4.0-test.1/SHA256SUMS-v0.4.0.txt)
 - [版本说明与全部下载](https://github.com/haotian345/deepseek-android/releases)
 
 当前版本为调试签名测试版，最低 Android 7.0（API 24）。真机兼容性与真实 API 功能仍需进一步验收。
@@ -25,15 +25,38 @@
 - 长对话自动摘要压缩（默认约 64K 估算预算），保留原始聊天；可显示进度、中途停止并在重启后复用摘要。
 - 可选的跨对话记忆，支持自动提取、手动添加、编辑、删除和清空；默认关闭，入口为「设置 → 记忆」。
 
-聊天生成和相关附件处理依赖 DeepSeek 云端 API，需要使用自己的 API Key。历史导入作用于当前所选存储，不会自动同步到 DeepSeek 账号。
+聊天生成依赖当前选择的 API 平台；内置 DeepSeek 的附件与语音功能使用 DeepSeek API。历史导入作用于当前所选存储，不会自动同步到 DeepSeek 账号。
 
-生成摘要和提取记忆会额外调用 DeepSeek API，相关旧聊天或选中的记忆会随请求发送。记忆保存在当前所选存储（本地模式使用独立数据库），现有历史 ZIP 不包含它们；删除聊天不会自动清除独立长期记忆。摘要可能损失细节，本机 token 估算不等于服务端精确用量。
+生成摘要和提取记忆会额外调用当前选择的模型 API，相关旧聊天或选中的记忆会随请求发送。记忆保存在当前所选存储（本地模式使用独立数据库），现有历史 ZIP 不包含它们；删除聊天不会自动清除独立长期记忆。摘要可能损失细节，本机 token 估算不等于服务端精确用量。
 
 ## 安装与更新
 
 下载 APK 后按 Android 提示安装。更新时请覆盖安装；卸载应用会清除本地 Key、设置和历史。
 
-输入 Key 后点击“保存 API Key”，等待验证成功。导入 ZIP 后点击“确认导入”，等待完成提示。
+使用内置 DeepSeek 时，输入 Key 后点击“保存 API Key”，等待验证成功；自定义平台按下方步骤配置。导入 ZIP 后点击“确认导入”，等待完成提示。
+
+## API 平台与模型配置
+
+在输入框的模型菜单中点击「自定义…」，或进入「设置 → 数据管理 → API 服务商与模型」。这里配置模型 API；下方「数据存储」配置聊天保存位置，两者相互独立。
+
+### 使用 DeepSeek
+
+选择内置「DeepSeek」，在下方保存自己的 DeepSeek API Key。模型菜单默认保留 `deepseek-flash`、`deepseek-v4-pro`，也可以添加额外模型。指向官方 `api.deepseek.com` 的自定义兼容连接同样默认显示这两个名称。
+
+### 添加 OpenAI 兼容平台
+
+1. 点击「添加自定义平台」。
+2. 填写平台名称和 API Base URL，例如 `https://gateway.example.com/v1`；将示例替换成自己的接口地址。Chat Completions 接口路径默认 `/chat/completions`，App 会将两者拼成请求地址。
+3. 填写该平台的 API Key；本地无鉴权服务可以留空。使用可信局域网的 `http://` 接口时勾选允许 HTTP。真机连接电脑上的接口时填写电脑实际局域网 IP，并确保手机可以访问该端口。
+4. 在「模型列表」填写平台实际支持的「模型 ID」，可另填「显示名称」。例如模型 ID 为 `my-model-id`、显示名称为「我的模型」时，界面显示后者，请求仍使用 `my-model-id`。其他平台的模型由自己定义，不预填 DeepSeek 模型。
+5. 可点击「测试 API 连接」，然后点击「保存并使用」。测试只读取 `/models`；部分兼容平台不提供此接口，可按该平台文档填写后直接保存。
+6. 回到聊天页，在模型菜单中选择刚配置的模型。每个平台分别保存模型列表和最后选择；后续聊天、压缩摘要和记忆提取使用当前平台。
+
+更换已保存平台时，在「编辑服务商」中选中目标，再点击「保存并使用」。修改地址或 Chat 路径后需重新填写对应 Key；已经保存的 Key 只在原地址与路径复用，输入框不会回显。存在其他未保存输入、生成、上传或数据操作时，请先处理完成再切换。
+
+自定义平台本期支持文字聊天、流式思考内容展示、压缩和记忆；DeepSeek 专属的附件、语音、联网搜索及思考请求开关会禁用。若要继续或重试另一个平台的旧回答，请切回原平台，或使用「重新生成」。
+
+Android 将自定义平台配置与 Key 独立加密保存，聊天记录不包含平台 Key 或地址。详细范围和真机配置见 [API 平台说明](docs/API-PROVIDERS.md)。本功能参考 [Chatbox 的服务商配置结构](https://github.com/chatboxai/chatbox/blob/main/docs/technical/ai-providers.md)，适配代码由本项目独立实现。
 
 ## 服务端部署
 
